@@ -1,0 +1,19 @@
+{
+    "name": "fsouzas/query-builder",
+    "description": "A Laravel query builder package.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabio Souza",
+            "email": "fsouza.me@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Fbsouzas\\QueryBuilder\\": "./src/"
+        }
+    }
+}
