@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Fbsouzas\QueryBuilder;
 
 use Fbsouzas\QueryBuilder\Conditions\ConditionChain;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class QueryBuilder

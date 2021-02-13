@@ -21,7 +21,8 @@ class ConditionChain
     {
         $select = new Select();
         $order = new Order($select);
+        $like = new Like($order);
 
-        return $order->apply($this->query, $this->conditions);
+        return $like->apply($this->query, $this->conditions);
     }
 }
