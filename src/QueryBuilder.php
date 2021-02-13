@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Fbsouzas\QueryBuilder;
 
-use Fbsouzas\QueryBuilder\Conditions\ConditionChain;
+use Fbsouzas\QueryBuilder\Clauses\ClauseChain;
 use Illuminate\Database\Eloquent\Model;
 
 class QueryBuilder
@@ -18,11 +18,11 @@ class QueryBuilder
         return $this;
     }
 
-    public function apply(array $conditions)
+    public function apply(array $clauses)
     {
         $builder = ($this->model)->newQuery();
 
-        $chain = new ConditionChain($builder, $conditions);
+        $chain = new ClauseChain($builder, $clauses);
         $query = $chain->dispatch();
 
         return $query;

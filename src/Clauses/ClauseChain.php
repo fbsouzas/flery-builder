@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Fbsouzas\QueryBuilder\Conditions;
+namespace Fbsouzas\QueryBuilder\Clauses;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class ConditionChain
+class ClauseChain
 {
     private Builder $query;
-    private array $conditions;
+    private array $clauses;
 
-    public function __construct(Builder $query, array $conditions)
+    public function __construct(Builder $query, array $clauses)
     {
         $this->query = $query;
-        $this->conditions = $conditions;
+        $this->clauses = $clauses;
     }
 
     public function dispatch()
@@ -23,6 +23,6 @@ class ConditionChain
         $order = new Order($select);
         $like = new Like($order);
 
-        return $like->apply($this->query, $this->conditions);
+        return $like->apply($this->query, $this->clauses);
     }
 }
