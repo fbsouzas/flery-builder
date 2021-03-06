@@ -6,7 +6,7 @@ namespace Fbsouzas\QueryBuilder\Clauses;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class ClauseChain
+final class ClauseChain
 {
     private Builder $query;
     private array $clauses;
