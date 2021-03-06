@@ -6,19 +6,16 @@ namespace Fbsouzas\QueryBuilder\Clauses;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class Select implements Clause
+final class Select implements Clause
 {
     public function apply(Builder $query, array $clauses): Builder
     {
-        if ($this->hasSelectClause($clauses)) {
+        $isSelect = array_key_exists('select', $clauses);
+
+        if ($isSelect) {
             $query->select(explode(',', $clauses['select']));
         }
 
         return $query;
-    }
-
-    private function hasSelectClause(array $clauses): bool
-    {
-        return array_key_exists('select', $clauses);
     }
 }
