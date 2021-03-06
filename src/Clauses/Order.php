@@ -6,7 +6,7 @@ namespace Fbsouzas\QueryBuilder\Clauses;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class Order implements Clause
+final class Order implements Clause
 {
     private Clause $next;
 
@@ -18,9 +18,7 @@ class Order implements Clause
     public function apply(Builder $query, array $clauses): Builder
     {
         if ($this->hasOrderClause($clauses)) {
-            foreach ($clauses['order'] as $order => $attribute) {
-                $query->orderBy($attribute, $order);
-            }
+            $query = $this->order($query, $clauses['order']);
         }
 
         return $this->next->apply($query, $clauses);
@@ -29,5 +27,14 @@ class Order implements Clause
     private function hasOrderClause(array $clauses): bool
     {
         return array_key_exists('order', $clauses);
+    }
+
+    private function order(Builder $query, array $orderClause): Builder
+    {
+        foreach ($orderClause as $order => $attribute) {
+            $query->orderBy($attribute, $order);
+        }
+
+        return $query;
     }
 }
