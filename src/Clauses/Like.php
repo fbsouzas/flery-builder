@@ -6,7 +6,7 @@ namespace Fbsouzas\QueryBuilder\Clauses;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class Like implements Clause
+final class Like implements Clause
 {
     private Clause $next;
 
@@ -18,9 +18,7 @@ class Like implements Clause
     public function apply(Builder $query, array $clauses): Builder
     {
         if ($this->hasLikeClause($clauses)) {
-            foreach ($clauses['like'] as $field => $value) {
-                $query->where($field, 'like', '%' . $value . '%');
-            }
+            $query = $this->like($query, $clauses['like']);
         }
 
         return $this->next->apply($query, $clauses);
@@ -29,5 +27,14 @@ class Like implements Clause
     private function hasLikeClause(array $clauses): bool
     {
         return array_key_exists('like', $clauses);
+    }
+
+    private function like(Builder $query, array $likeClause): Builder
+    {
+        foreach ($likeClause as $field => $value) {
+            $query->where($field, 'like', '%' . $value . '%');
+        }
+
+        return $query;
     }
 }
