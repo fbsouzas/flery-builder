@@ -5,26 +5,24 @@ declare(strict_types=1);
 namespace Fbsouzas\QueryBuilder;
 
 use Fbsouzas\QueryBuilder\Clauses\ClauseChain;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class QueryBuilder
 {
-    private Model $model;
+    private string $model;
 
     public function to(string $model): self
     {
-        $this->model = new $model;
+        $this->model = $model;
 
         return $this;
     }
 
-    public function apply(array $clauses)
+    public function apply(array $clauses): Builder
     {
-        $builder = ($this->model)->newQuery();
+        $query = (new $this->model)->newQuery();
+        $chain = new ClauseChain($query, $clauses);
 
-        $chain = new ClauseChain($builder, $clauses);
-        $query = $chain->dispatch();
-
-        return $query;
+        return $chain->dispatch();
     }
 }
