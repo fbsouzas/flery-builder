@@ -16,7 +16,7 @@ class LikeTest extends TestCase
      * @test
      * @dataProvider provideLikeClauses
      */
-    public function itTest(array $likeClause): void
+    public function itMustBeIncludeTheLikeClauseInTheQuery(array $likeClause): void
     {
         $qb = (new Test())->newQuery();
         $mock = $this->getMockBuilder(Clause::class)
