@@ -17,7 +17,7 @@ final class ClauseChain
         $this->clauses = $clauses;
     }
 
-    public function dispatch()
+    public function dispatch(): Builder
     {
         $select = new Select();
         $order = new Order($select);
