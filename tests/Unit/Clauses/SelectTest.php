@@ -12,52 +12,56 @@ use Illuminate\Database\Eloquent\Builder;
 class SelectTest extends TestCase
 {
     private Select $select;
-    private Builder $qb;
+    private Builder $builder;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->select = new Select();
-        $this->qb = (new Test())->newQuery();
-    }
-
-    public function selectFields(): array
-    {
-        return [
-            ['first_name'],
-            ['first_name,age'],
-            ['first_name,age,last_name'],
-        ];
+        $this->builder = (new Test())->newQuery();
     }
 
     /**
      * @test
-     * @dataProvider selectFields
+     * @dataProvider provideSelectFields
      */
     public function itMustBeIncludeTheFieldsInTheQuerySelect(string $selectFields): void
     {
-        $query = $this->select->apply($this->qb, [
+        $query = $this->select->apply($this->builder, [
             'select' => $selectFields,
         ]);
 
-        $selectAssertPrepared = $this->prepareSelectAssert($selectFields);
-
         self::assertInstanceOf(Builder::class, $query);
-        self::assertStringContainsString($selectAssertPrepared, $query->toSql());
+        self::assertStringContainsString($this->mountAssertString($selectFields), $query->toSql());
     }
 
     /** @test */
     public function itMustBeReturnAWildcardInTheQuerySelect(): void
     {
-        $query = $this->select->apply($this->qb, []);
+        $query = $this->select->apply($this->builder, []);
 
         self::assertInstanceOf(Builder::class, $query);
         self::assertStringContainsString('select *', $query->toSql());
     }
 
-    private function prepareSelectAssert(string $selectFields): string
+    private function mountAssertString(string $selectFields): string
     {
         return 'select "' . implode('", "', explode(',', $selectFields));
+    }
+
+    public function provideSelectFields(): array
+    {
+        return [
+            [
+                'first_name',
+            ],
+            [
+                'first_name,age',
+            ],
+            [
+                'first_name,age,last_name',
+            ],
+        ];
     }
 }

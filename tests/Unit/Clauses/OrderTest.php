@@ -8,18 +8,50 @@ use Fbsouzas\QueryBuilder\Clauses\Clause;
 use Fbsouzas\QueryBuilder\Clauses\Order;
 use Fbsouzas\QueryBuilder\Tests\TestCase;
 use Fbsouzas\QueryBuilder\Tests\TestClasses\Models\Test;
-use Fbsouzas\QueryBuilder\Tests\TestClasses\Mocks\ClauseMock;
 use Illuminate\Database\Eloquent\Builder;
 
 class OrderTest extends TestCase
 {
+    private Builder $builder;
+    private object $clauseMock;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->builder = (new Test())->newQuery();
+        $this->clauseMock = $this->clauseMock($this->builder);
+    }
+
     /**
      * @test
-     * @dataProvider orderClauses
+     * @dataProvider provideOrderClauses
      */
     public function itMustBeIncludeTheOrderClauseInTheQuery(array $orderClause): void
     {
-        $qb = (new Test())->newQuery();
+        $order = new Order($this->clauseMock);
+
+        $query = $order->apply($this->builder, [
+            'order' => $orderClause,
+        ]);
+
+        self::assertInstanceOf(Builder::class, $query);
+        self::assertStringContainsString($this->mountAssertString($orderClause), $query->toSql());
+    }
+
+    /** @test */
+    public function itMustHaveNotOrderClauseInTheQuery(): void
+    {
+        $order = new Order($this->clauseMock);
+
+        $query = $order->apply($this->builder, []);
+
+        self::assertInstanceOf(Builder::class, $query);
+        self::assertStringNotContainsString('order', $query->toSql());
+    }
+
+    private function clauseMock(Builder $qb): object
+    {
         $mock = $this->getMockBuilder(Clause::class)
             ->disableOriginalConstructor()
             ->disableOriginalClone()
@@ -30,33 +62,47 @@ class OrderTest extends TestCase
         $mock->method('apply')
             ->willReturn($qb);
 
-        /** @var Clause $mock */
-        $order = new Order($mock);
-
-        $query = $order->apply($qb, ['order' => $orderClause]);
-        $orderAssertPrepared = $this->prepareOrderAssert($orderClause);
-
-        self::assertInstanceOf(Builder::class, $query);
-        self::assertStringContainsString($orderAssertPrepared, $query->toSql());
+        return $mock;
     }
 
-    private function prepareOrderAssert(array $orderClause): string
+    private function mountAssertString(array $orderClause): string
     {
-        $orderAssert = 'order by';
+        $mountedAssert = 'order by';
         $orderClauseLastKey = array_key_last($orderClause);
 
         foreach ($orderClause as $order => $column) {
-            $orderAssert .= " \"{$column}\" {$order}";
-
-            if ($orderClauseLastKey !== $order) {
-                $orderAssert .= ',';
-            }
+            $mountedAssert = $this->addOrderClauseInTheAssertString(
+                $mountedAssert,
+                $order,
+                $column,
+                $orderClauseLastKey
+            );
         }
 
-        return $orderAssert;
+        return $mountedAssert;
     }
 
-    public function orderClauses(): array
+    private function addOrderClauseInTheAssertString(
+        string $mountedAssert,
+        string $order,
+        string $column,
+        string $orderClauseLastKey
+    ): string {
+        $mountedAssert .= " \"{$column}\" {$order}";
+
+        if ($this->isNotTheLastOrderClause($order, $orderClauseLastKey)) {
+            $mountedAssert .= ',';
+        }
+
+        return $mountedAssert;
+    }
+
+    private function isNotTheLastOrderClause(string $order, string $orderClauseLastKey): bool
+    {
+        return $orderClauseLastKey !== $order;
+    }
+
+    public function provideOrderClauses(): array
     {
         return [
             [

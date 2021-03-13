@@ -14,8 +14,8 @@ class ClauseChainTest extends TestCase
     /** @test */
     public function itMustReturnAnInstanceOfTheEloquentBuilderClass(): void
     {
-        $qb = (new Test())->newQuery();
-        $clauseChain = new ClauseChain($qb, []);
+        $buider = (new Test())->newQuery();
+        $clauseChain = new ClauseChain($buider, []);
 
         self::assertInstanceOf(Builder::class, $clauseChain->dispatch());
     }

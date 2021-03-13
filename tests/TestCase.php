@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Fbsouzas\QueryBuilder\Tests;
 
 use PHPUnit\Framework\TestCase as PhpUnitTestCase;
-
 use Illuminate\Database\Capsule\Manager;
 
 class TestCase extends PhpUnitTestCase
