@@ -11,28 +11,18 @@ use Illuminate\Database\Eloquent\Builder;
 
 class QueryBuilderTest extends TestCase
 {
-    private QueryBuilder $queryBuilder;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->queryBuilder = new QueryBuilder();
-    }
-
     /** @test */
     public function itMustReturnAnInstanceOfTheClass(): void
     {
-        $query = $this->queryBuilder->to(Test::class);
+        $query = QueryBuilder::to(Test::class);
 
-        self::assertSame($this->queryBuilder, $query);
+        self::assertInstanceOf(QueryBuilder::class, $query);
     }
 
     /** @test */
     public function itMustReturnAnInstanceOfTheEloquentBuilderClass(): void
     {
-        $query = $this->queryBuilder
-            ->to(Test::class)
+        $query = QueryBuilder::to(Test::class)
             ->apply([]);
 
         self::assertInstanceOf(Builder::class, $query);

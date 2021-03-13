@@ -11,16 +11,19 @@ class QueryBuilder
 {
     private string $model;
 
-    public function to(string $model): self
+    public function __construct(string $model)
     {
         $this->model = $model;
+    }
 
-        return $this;
+    public static function to(string $model): self
+    {
+        return new QueryBuilder($model);
     }
 
     public function apply(array $clauses): Builder
     {
-        $query = (new $this->model)->newQuery();
+        $query = (new $this->model())->newQuery();
         $chain = new ClauseChain($query, $clauses);
 
         return $chain->dispatch();
