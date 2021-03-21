@@ -32,7 +32,7 @@ final class Like implements Clause
     private function like(Builder $query, array $likeClause): Builder
     {
         foreach ($likeClause as $field => $value) {
-            $query->where($field, 'like', '%' . $value . '%');
+            $query->where($field, 'like', "%{$value}%");
         }
 
         return $query;
