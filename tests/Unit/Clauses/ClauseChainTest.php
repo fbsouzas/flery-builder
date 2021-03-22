@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Fbsouzas\QueryBuilder\Tests\Unit\Clauses;
+namespace Fbsouzas\FleryBuilder\Tests\Unit\Clauses;
 
-use Fbsouzas\QueryBuilder\Clauses\ClauseChain;
-use Fbsouzas\QueryBuilder\Tests\TestCase;
-use Fbsouzas\QueryBuilder\Tests\TestClasses\Models\Test;
+use Fbsouzas\FleryBuilder\Clauses\ClauseChain;
+use Fbsouzas\FleryBuilder\Tests\TestCase;
+use Fbsouzas\FleryBuilder\Tests\TestClasses\Models\Test;
 use Illuminate\Database\Eloquent\Builder;
 
 class ClauseChainTest extends TestCase

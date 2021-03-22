@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Fbsouzas\QueryBuilder\Tests\Unit\Clauses;
+namespace Fbsouzas\FleryBuilder\Tests\Unit\Clauses;
 
-use Fbsouzas\QueryBuilder\Clauses\Clause;
-use Fbsouzas\QueryBuilder\Clauses\Like;
-use Fbsouzas\QueryBuilder\Tests\TestCase;
-use Fbsouzas\QueryBuilder\Tests\TestClasses\Models\Test;
+use Fbsouzas\FleryBuilder\Clauses\Clause;
+use Fbsouzas\FleryBuilder\Clauses\Like;
+use Fbsouzas\FleryBuilder\Tests\TestCase;
+use Fbsouzas\FleryBuilder\Tests\TestClasses\Models\Test;
 use Illuminate\Database\Eloquent\Builder;
 
 class LikeTest extends TestCase

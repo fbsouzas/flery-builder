@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Fbsouzas\QueryBuilder\Tests;
+namespace Fbsouzas\FleryBuilder\Tests;
 
 use PHPUnit\Framework\TestCase as PhpUnitTestCase;
 use Illuminate\Database\Capsule\Manager;

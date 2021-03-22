@@ -15,12 +15,12 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "Fbsouzas\\QueryBuilder\\": "./src/"
+            "Fbsouzas\\FleryBuilder\\": "./src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Fbsouzas\\QueryBuilder\\Tests\\": "./tests"
+            "Fbsouzas\\FleryBuilder\\Tests\\": "./tests"
         }
     },
     "require-dev": {

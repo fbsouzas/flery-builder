@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Fbsouzas\QueryBuilder\Clauses;
+namespace Fbsouzas\FleryBuilder\Clauses;
 
 use Illuminate\Database\Eloquent\Builder;
 

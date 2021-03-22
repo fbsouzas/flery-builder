@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Fbsouzas\QueryBuilder;
+namespace Fbsouzas\FleryBuilder;
 
-use Fbsouzas\QueryBuilder\Clauses\ClauseChain;
+use Fbsouzas\FleryBuilder\Clauses\ClauseChain;
 use Illuminate\Database\Eloquent\Builder;
 
-class QueryBuilder
+class FleryBuilder
 {
     private string $model;
 
@@ -18,7 +18,7 @@ class QueryBuilder
 
     public static function to(string $model): self
     {
-        return new QueryBuilder($model);
+        return new FleryBuilder($model);
     }
 
     public function apply(array $clauses): Builder
