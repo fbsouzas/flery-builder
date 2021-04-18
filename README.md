@@ -88,7 +88,12 @@ GET /api/users?with=contact
 // or
 
 // This will return the user and his contact information and posts
-GET /api/users?with=contact,posts
+GET /api/users?with=contact;posts
+
+// or
+
+// This will return the user and just his posts title
+GET /api/users?with=posts:id,title
 ```
 
 ### Like

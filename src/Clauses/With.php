@@ -31,7 +31,7 @@ final class With implements Clause
 
     private function with(Builder $query, string $withClause): Builder
     {
-        $relationships = explode(',', $withClause);
+        $relationships = explode(';', $withClause);
 
         foreach ($relationships as $relationship) {
             $query->with($relationship);
