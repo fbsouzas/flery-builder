@@ -20,7 +20,8 @@ final class ClauseChain
     public function dispatch(): Builder
     {
         $select = new Select();
-        $order = new Order($select);
+        $with = new With($select);
+        $order = new Order($with);
         $like = new Like($order);
 
         return $like->apply($this->query, $this->clauses);
