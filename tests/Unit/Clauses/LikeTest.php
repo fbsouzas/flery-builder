@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class LikeTest extends TestCase
 {
-    private builder $builder;
+    private Builder $builder;
     private object $clauseMock;
 
     public function setUp(): void
