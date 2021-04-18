@@ -79,6 +79,18 @@ GET /api/users?select=first_name
 GET /api/users?select=first_name,last_name
 ```
 
+### With
+
+```php
+// This will return the user and his contact information
+GET /api/users?with=contact
+
+// or
+
+// This will return the user and his contact information and posts
+GET /api/users?with=contact,posts
+```
+
 ### Like
 
 ```php
