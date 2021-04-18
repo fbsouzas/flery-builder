@@ -27,5 +27,8 @@
         "squizlabs/php_codesniffer": "^3.5",
         "phpunit/phpunit": "^9.5",
         "infection/infection": "^0.21.4"
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit"
     }
 }
