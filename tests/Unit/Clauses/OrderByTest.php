@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Fbsouzas\FleryBuilder\Tests\Unit\Clauses;
 
 use Fbsouzas\FleryBuilder\Clauses\Clause;
-use Fbsouzas\FleryBuilder\Clauses\Order;
+use Fbsouzas\FleryBuilder\Clauses\OrderBy;
 use Fbsouzas\FleryBuilder\Tests\TestCase;
 use Fbsouzas\FleryBuilder\Tests\TestClasses\Models\Test;
 use Illuminate\Database\Eloquent\Builder;
 
-class OrderTest extends TestCase
+class OrderByTest extends TestCase
 {
     private Builder $builder;
     private object $clauseMock;
@@ -27,12 +27,12 @@ class OrderTest extends TestCase
      * @test
      * @dataProvider provideOrderClauses
      */
-    public function itMustBeIncludeTheOrderClauseInTheQuery(array $orderClause): void
+    public function itMustBeIncludeTheOrderClauseInTheQuery(string $orderClause): void
     {
-        $order = new Order($this->clauseMock);
+        $order = new OrderBy($this->clauseMock);
 
         $query = $order->apply($this->builder, [
-            'order' => $orderClause,
+            'sort' => $orderClause,
         ]);
 
         self::assertInstanceOf(Builder::class, $query);
@@ -42,7 +42,7 @@ class OrderTest extends TestCase
     /** @test */
     public function itMustHaveNotOrderClauseInTheQuery(): void
     {
-        $order = new Order($this->clauseMock);
+        $order = new OrderBy($this->clauseMock);
 
         $query = $order->apply($this->builder, []);
 
@@ -65,61 +65,48 @@ class OrderTest extends TestCase
         return $mock;
     }
 
-    private function mountAssertString(array $orderClause): string
+    private function mountAssertString(string $orderClause): string
     {
         $mountedAssert = 'order by';
-        $orderClauseLastKey = array_key_last($orderClause);
+        $orderClause = explode(',', $orderClause);
+        $orderClauseLength = count($orderClause);
 
-        foreach ($orderClause as $order => $column) {
-            $mountedAssert = $this->addOrderClauseInTheAssertString(
-                $mountedAssert,
-                $order,
-                $column,
-                $orderClauseLastKey
-            );
+        foreach ($orderClause as $key => $clause) {
+            $order = $this->order($clause);
+            $attribute = str_replace('-', '', $clause);
+
+            $mountedAssert .= " \"{$attribute}\" {$order}";
+
+            if ($key !== $orderClauseLength - 1) {
+                $mountedAssert .= ',';
+            }
         }
 
         return $mountedAssert;
     }
 
-    private function addOrderClauseInTheAssertString(
-        string $mountedAssert,
-        string $order,
-        string $column,
-        string $orderClauseLastKey
-    ): string {
-        $mountedAssert .= " \"{$column}\" {$order}";
-
-        if ($this->isNotTheLastOrderClause($order, $orderClauseLastKey)) {
-            $mountedAssert .= ',';
-        }
-
-        return $mountedAssert;
-    }
-
-    private function isNotTheLastOrderClause(string $order, string $orderClauseLastKey): bool
+    private function order(string $sortClause): string
     {
-        return $orderClauseLastKey !== $order;
+        $order = 'asc';
+
+        if ('-' === substr($sortClause, 0, 1)) {
+            $order = 'desc';
+        }
+
+        return $order;
     }
 
     public function provideOrderClauses(): array
     {
         return [
             [
-                [
-                    'asc' => 'test',
-                ],
+                'test',
             ],
             [
-                [
-                    'desc' => 'test',
-                ],
+                '-test',
             ],
             [
-                [
-                    'asc' => 'test',
-                    'desc' => 'test',
-                ],
+                'test,-test',
             ],
         ];
     }

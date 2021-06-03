@@ -21,8 +21,8 @@ final class ClauseChain
     {
         $select = new Select();
         $with = new With($select);
-        $order = new Order($with);
-        $like = new Like($order);
+        $orderBy = new OrderBy($with);
+        $like = new Like($orderBy);
 
         return $like->apply($this->query, $this->clauses);
     }

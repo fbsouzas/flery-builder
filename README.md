@@ -103,16 +103,16 @@ GET /api/users?with=posts:id,title
 GET /api/users?like[first_name]=joe
 ```
 
-#### Order
+#### Order by
 
 ```php
 // This will return a user's list ascendant ordered by first name
-GET /api/users?order[asc]=first_name
+GET /api/users?sort=first_name
 
 // or
 
 // This will return a user's list descendant ordered by first name
-GET /api/users?order[desc]=first_name
+GET /api/users?sort=-first_name
 ```
 
 ## Requiremets
