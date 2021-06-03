@@ -29,7 +29,7 @@ class SelectTest extends TestCase
     public function itMustBeIncludeTheFieldsInTheQuerySelect(string $selectFields): void
     {
         $query = $this->select->apply($this->builder, [
-            'select' => $selectFields,
+            'fields' => $selectFields,
         ]);
 
         self::assertInstanceOf(Builder::class, $query);
