@@ -103,7 +103,7 @@ GET /api/users?with=posts:id,title
 GET /api/users?search[first_name]=joe
 ```
 
-#### Order by
+### Order by
 
 ```php
 // This will return a user's list ascendant ordered by first name
