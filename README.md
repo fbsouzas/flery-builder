@@ -71,12 +71,12 @@ return FleryBuilder::to(User::class)
 
 ```php
 // This will return only the user's first name
-GET /api/users?select=first_name
+GET /api/users?fields=first_name
 
 // or
 
 // This will return only the user's first name and last name
-GET /api/users?select=first_name,last_name
+GET /api/users?fields=first_name,last_name
 ```
 
 ### With

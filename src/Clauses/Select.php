@@ -10,12 +10,15 @@ final class Select implements Clause
 {
     public function apply(Builder $query, array $clauses): Builder
     {
-        $isSelect = array_key_exists('select', $clauses);
-
-        if ($isSelect) {
-            $query->select(explode(',', $clauses['select']));
+        if ($this->hasFieldsClause($clauses)) {
+            $query->select(explode(',', $clauses['fields']));
         }
 
         return $query;
+    }
+
+    private function hasFieldsClause(array $clauses): bool
+    {
+        return array_key_exists('fields', $clauses);
     }
 }
