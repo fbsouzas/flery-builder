@@ -15,39 +15,39 @@ final class OrderBy implements Clause
         $this->next = $next;
     }
 
-    public function apply(Builder $query, array $clauses): Builder
+    public function apply(Builder $query, array $queryStrings): Builder
     {
-        if ($this->hasSortClause($clauses)) {
-            $query = $this->sort($query, $clauses['sort']);
+        if ($this->hasSortQueryString($queryStrings)) {
+            $query = $this->orderBy($query, $queryStrings['sort']);
         }
 
-        return $this->next->apply($query, $clauses);
+        return $this->next->apply($query, $queryStrings);
     }
 
-    private function hasSortClause(array $clauses): bool
+    private function hasSortQueryString(array $queryStrings): bool
     {
-        return array_key_exists('sort', $clauses);
+        return array_key_exists('sort', $queryStrings);
     }
 
-    private function sort(Builder $query, string $sortClause): Builder
+    private function orderBy(Builder $query, string $sortQueryString): Builder
     {
-        $sortClause = explode(',', $sortClause);
+        $sorts = explode(',', $sortQueryString);
 
-        foreach ($sortClause as $clause) {
-            $attribute = str_replace('-', '', $clause);
-            $order = $this->order($clause);
+        foreach ($sorts as $sort) {
+            $column = str_replace('-', '', $sort);
+            $order = $this->order($sort);
 
-            $query->orderBy($attribute, $order);
+            $query->orderBy($column, $order);
         }
 
         return $query;
     }
 
-    private function order(string $sortClause): string
+    private function order(string $sort): string
     {
         $order = 'asc';
 
-        if ('-' === substr($sortClause, 0, 1)) {
+        if ('-' === substr($sort, 0, 1)) {
             $order = 'desc';
         }
 

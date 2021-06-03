@@ -25,18 +25,18 @@ class OrderByTest extends TestCase
 
     /**
      * @test
-     * @dataProvider provideOrderClauses
+     * @dataProvider sortQueryStrings
      */
-    public function itMustBeIncludeTheOrderClauseInTheQuery(string $orderClause): void
+    public function itMustBeIncludeTheOrderClauseInTheQuery(string $sortQueryStrings): void
     {
         $order = new OrderBy($this->clauseMock);
 
         $query = $order->apply($this->builder, [
-            'sort' => $orderClause,
+            'sort' => $sortQueryStrings,
         ]);
 
         self::assertInstanceOf(Builder::class, $query);
-        self::assertStringContainsString($this->mountAssertString($orderClause), $query->toSql());
+        self::assertStringContainsString($this->mountAssertString($sortQueryStrings), $query->toSql());
     }
 
     /** @test */
@@ -65,19 +65,19 @@ class OrderByTest extends TestCase
         return $mock;
     }
 
-    private function mountAssertString(string $orderClause): string
+    private function mountAssertString(string $sortQueryStrings): string
     {
         $mountedAssert = 'order by';
-        $orderClause = explode(',', $orderClause);
-        $orderClauseLength = count($orderClause);
+        $sortQueryStrings = explode(',', $sortQueryStrings);
+        $sortQueryStringsLength = count($sortQueryStrings);
 
-        foreach ($orderClause as $key => $clause) {
-            $order = $this->order($clause);
-            $attribute = str_replace('-', '', $clause);
+        foreach ($sortQueryStrings as $key => $sortQueryString) {
+            $order = $this->order($sortQueryString);
+            $column = str_replace('-', '', $sortQueryString);
 
-            $mountedAssert .= " \"{$attribute}\" {$order}";
+            $mountedAssert .= " \"{$column}\" {$order}";
 
-            if ($key !== $orderClauseLength - 1) {
+            if ($key !== $sortQueryStringsLength - 1) {
                 $mountedAssert .= ',';
             }
         }
@@ -85,18 +85,18 @@ class OrderByTest extends TestCase
         return $mountedAssert;
     }
 
-    private function order(string $sortClause): string
+    private function order(string $sortQueryString): string
     {
         $order = 'asc';
 
-        if ('-' === substr($sortClause, 0, 1)) {
+        if ('-' === substr($sortQueryString, 0, 1)) {
             $order = 'desc';
         }
 
         return $order;
     }
 
-    public function provideOrderClauses(): array
+    public function sortQueryStrings(): array
     {
         return [
             [

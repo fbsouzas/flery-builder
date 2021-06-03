@@ -25,18 +25,18 @@ class LikeTest extends TestCase
 
     /**
      * @test
-     * @dataProvider provideLikeClauses
+     * @dataProvider searchQueryStrings
      */
-    public function itMustBeIncludeTheLikeClauseInTheQuery(array $likeClause): void
+    public function itMustBeIncludeTheLikeClauseInTheQuery(array $searchQueryString): void
     {
         $like = new Like($this->clauseMock);
 
         $query = $like->apply($this->builder, [
-            'search' => $likeClause,
+            'search' => $searchQueryString,
         ]);
 
         self::assertInstanceOf(Builder::class, $query);
-        self::assertStringContainsString($this->mountAssertString($likeClause), $query->toSql());
+        self::assertStringContainsString($this->mountAssertString($searchQueryString), $query->toSql());
     }
 
     /** @test */
@@ -65,35 +65,35 @@ class LikeTest extends TestCase
         return $mock;
     }
 
-    private function mountAssertString(array $likeClause): string
+    private function mountAssertString(array $searchQueryString): string
     {
         $mountedAssert = 'where ';
-        $likeClauseLastKey = array_key_last($likeClause);
+        $searchQueryStringLastKey = array_key_last($searchQueryString);
 
-        foreach ($likeClause as $column => $value) {
-            $mountedAssert = $this->addLikeClauseInTheAssertString($mountedAssert, $column, $likeClauseLastKey);
+        foreach ($searchQueryString as $column => $value) {
+            $mountedAssert = $this->addLikeClauseInTheAssertString($mountedAssert, $column, $searchQueryStringLastKey);
         }
 
         return $mountedAssert;
     }
 
-    private function addLikeClauseInTheAssertString(string $mountedAssert, string $column, string $likeClauseLastKey): string
+    private function addLikeClauseInTheAssertString(string $mountedAssert, string $column, string $searchQueryStringLastKey): string
     {
         $mountedAssert .= "\"{$column}\" like ?";
 
-        if ($this->isNotTheLastLikeClause($column, $likeClauseLastKey)) {
+        if ($this->isNotTheLastLikeClause($column, $searchQueryStringLastKey)) {
             $mountedAssert .= ' and ';
         }
 
         return $mountedAssert;
     }
 
-    private function isNotTheLastLikeClause(string $column, string $likeClauseLastKey): bool
+    private function isNotTheLastLikeClause(string $column, string $searchQueryStringLastKey): bool
     {
-        return $column !== $likeClauseLastKey;
+        return $column !== $searchQueryStringLastKey;
     }
 
-    public function provideLikeClauses(): array
+    public function searchQueryStrings(): array
     {
         return [
             [

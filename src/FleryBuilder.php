@@ -21,10 +21,10 @@ class FleryBuilder
         return new FleryBuilder($model);
     }
 
-    public function apply(array $clauses): Builder
+    public function apply(array $queryStrings): Builder
     {
         $query = (new $this->model())->newQuery();
-        $chain = new ClauseChain($query, $clauses);
+        $chain = new ClauseChain($query, $queryStrings);
 
         return $chain->dispatch();
     }

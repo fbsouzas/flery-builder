@@ -8,17 +8,17 @@ use Illuminate\Database\Eloquent\Builder;
 
 final class Select implements Clause
 {
-    public function apply(Builder $query, array $clauses): Builder
+    public function apply(Builder $query, array $queryStrings): Builder
     {
-        if ($this->hasFieldsClause($clauses)) {
-            $query->select(explode(',', $clauses['fields']));
+        if ($this->hasFieldsQueryString($queryStrings)) {
+            $query->select(explode(',', $queryStrings['fields']));
         }
 
         return $query;
     }
 
-    private function hasFieldsClause(array $clauses): bool
+    private function hasFieldsQueryString(array $queryStrings): bool
     {
-        return array_key_exists('fields', $clauses);
+        return array_key_exists('fields', $queryStrings);
     }
 }

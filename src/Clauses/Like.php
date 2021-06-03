@@ -15,23 +15,23 @@ final class Like implements Clause
         $this->next = $next;
     }
 
-    public function apply(Builder $query, array $clauses): Builder
+    public function apply(Builder $query, array $queryStrings): Builder
     {
-        if ($this->hasSearchClause($clauses)) {
-            $query = $this->like($query, $clauses['search']);
+        if ($this->hasSearchQueryString($queryStrings)) {
+            $query = $this->like($query, $queryStrings['search']);
         }
 
-        return $this->next->apply($query, $clauses);
+        return $this->next->apply($query, $queryStrings);
     }
 
-    private function hasSearchClause(array $clauses): bool
+    private function hasSearchQueryString(array $queryStrings): bool
     {
-        return array_key_exists('search', $clauses);
+        return array_key_exists('search', $queryStrings);
     }
 
-    private function like(Builder $query, array $likeClause): Builder
+    private function like(Builder $query, array $searchQueryString): Builder
     {
-        foreach ($likeClause as $field => $value) {
+        foreach ($searchQueryString as $field => $value) {
             $query->where($field, 'like', "%{$value}%");
         }
 

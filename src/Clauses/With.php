@@ -15,23 +15,23 @@ final class With implements Clause
         $this->next = $next;
     }
 
-    public function apply(Builder $query, array $clauses): Builder
+    public function apply(Builder $query, array $queryStrings): Builder
     {
-        if ($this->hasWithClause($clauses)) {
-            $this->with($query, $clauses['with']);
+        if ($this->hasWithQueryString($queryStrings)) {
+            $this->with($query, $queryStrings['with']);
         }
 
-        return $this->next->apply($query, $clauses);
+        return $this->next->apply($query, $queryStrings);
     }
 
-    private function hasWithClause(array $clauses): bool
+    private function hasWithQueryString(array $queryStrings): bool
     {
-        return array_key_exists('with', $clauses);
+        return array_key_exists('with', $queryStrings);
     }
 
-    private function with(Builder $query, string $withClause): Builder
+    private function with(Builder $query, string $withQueryString): Builder
     {
-        $relationships = explode(';', $withClause);
+        $relationships = explode(';', $withQueryString);
 
         foreach ($relationships as $relationship) {
             $query->with($relationship);

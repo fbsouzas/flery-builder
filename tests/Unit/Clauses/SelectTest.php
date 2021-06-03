@@ -24,16 +24,16 @@ class SelectTest extends TestCase
 
     /**
      * @test
-     * @dataProvider provideSelectFields
+     * @dataProvider fieldsQueryString
      */
-    public function itMustBeIncludeTheFieldsInTheQuerySelect(string $selectFields): void
+    public function itMustBeIncludeTheFieldsInTheQuerySelect(string $fieldsQueryString): void
     {
         $query = $this->select->apply($this->builder, [
-            'fields' => $selectFields,
+            'fields' => $fieldsQueryString,
         ]);
 
         self::assertInstanceOf(Builder::class, $query);
-        self::assertStringContainsString($this->mountAssertString($selectFields), $query->toSql());
+        self::assertStringContainsString($this->mountAssertString($fieldsQueryString), $query->toSql());
     }
 
     /** @test */
@@ -45,12 +45,12 @@ class SelectTest extends TestCase
         self::assertStringContainsString('select *', $query->toSql());
     }
 
-    private function mountAssertString(string $selectFields): string
+    private function mountAssertString(string $fieldsQueryString): string
     {
-        return 'select "' . implode('", "', explode(',', $selectFields));
+        return 'select "' . implode('", "', explode(',', $fieldsQueryString));
     }
 
-    public function provideSelectFields(): array
+    public function fieldsQueryString(): array
     {
         return [
             [

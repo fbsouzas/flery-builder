@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Builder;
 
 interface Clause
 {
-    public function apply(Builder $query, array $clauses): Builder;
+    public function apply(Builder $query, array $queryStrings): Builder;
 }

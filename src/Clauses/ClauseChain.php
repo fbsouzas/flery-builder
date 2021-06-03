@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Builder;
 final class ClauseChain
 {
     private Builder $query;
-    private array $clauses;
+    private array $queryStrings;
 
-    public function __construct(Builder $query, array $clauses)
+    public function __construct(Builder $query, array $queryStrings)
     {
         $this->query = $query;
-        $this->clauses = $clauses;
+        $this->queryStrings = $queryStrings;
     }
 
     public function dispatch(): Builder
@@ -24,6 +24,6 @@ final class ClauseChain
         $orderBy = new OrderBy($with);
         $like = new Like($orderBy);
 
-        return $like->apply($this->query, $this->clauses);
+        return $like->apply($this->query, $this->queryStrings);
     }
 }
