@@ -100,7 +100,7 @@ GET /api/users?with=posts:id,title
 
 ```php
 // This will return all users that have joe in their first names
-GET /api/users?like[first_name]=joe
+GET /api/users?search[first_name]=joe
 ```
 
 #### Order by

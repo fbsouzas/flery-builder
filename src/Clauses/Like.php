@@ -17,16 +17,16 @@ final class Like implements Clause
 
     public function apply(Builder $query, array $clauses): Builder
     {
-        if ($this->hasLikeClause($clauses)) {
-            $query = $this->like($query, $clauses['like']);
+        if ($this->hasSearchClause($clauses)) {
+            $query = $this->like($query, $clauses['search']);
         }
 
         return $this->next->apply($query, $clauses);
     }
 
-    private function hasLikeClause(array $clauses): bool
+    private function hasSearchClause(array $clauses): bool
     {
-        return array_key_exists('like', $clauses);
+        return array_key_exists('search', $clauses);
     }
 
     private function like(Builder $query, array $likeClause): Builder

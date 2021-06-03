@@ -32,7 +32,7 @@ class LikeTest extends TestCase
         $like = new Like($this->clauseMock);
 
         $query = $like->apply($this->builder, [
-            'like' => $likeClause,
+            'search' => $likeClause,
         ]);
 
         self::assertInstanceOf(Builder::class, $query);
@@ -47,7 +47,7 @@ class LikeTest extends TestCase
         $query = $like->apply($this->builder, []);
 
         self::assertInstanceOf(Builder::class, $query);
-        self::assertStringNotContainsString('like', $query->toSql());
+        self::assertStringNotContainsString('search', $query->toSql());
     }
 
     private function clauseMock(Builder $builder): object
