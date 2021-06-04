@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Builder;
 class WithTest extends TestCase
 {
     private Builder $builder;
+
+    /** @var Clause $clauseMock */
     private object $clauseMock;
 
     public function setUp(): void
@@ -36,6 +38,7 @@ class WithTest extends TestCase
         self::assertStringContainsString('select *', $query->toSql());
     }
 
+    /** @return Clause */
     private function clauseMock(Builder $builder): object
     {
         $mock = $this->getMockBuilder(Clause::class)

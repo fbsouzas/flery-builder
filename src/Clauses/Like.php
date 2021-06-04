@@ -24,11 +24,13 @@ final class Like implements Clause
         return $this->next->apply($query, $queryStrings);
     }
 
+    /** @param array<Mixed> $queryStrings */
     private function hasSearchQueryString(array $queryStrings): bool
     {
         return array_key_exists('search', $queryStrings);
     }
 
+    /** @param array<string, String> $searchQueryString */
     private function like(Builder $query, array $searchQueryString): Builder
     {
         foreach ($searchQueryString as $field => $value) {

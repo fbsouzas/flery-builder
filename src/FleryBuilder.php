@@ -21,6 +21,7 @@ class FleryBuilder
         return new FleryBuilder($model);
     }
 
+    /** @param array<Mixed> $queryStrings */
     public function apply(array $queryStrings): Builder
     {
         $query = (new $this->model())->newQuery();

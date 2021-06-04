@@ -24,6 +24,7 @@ final class OrderBy implements Clause
         return $this->next->apply($query, $queryStrings);
     }
 
+    /** @param array<String> $queryStrings */
     private function hasSortQueryString(array $queryStrings): bool
     {
         return array_key_exists('sort', $queryStrings);

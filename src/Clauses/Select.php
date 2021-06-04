@@ -17,6 +17,7 @@ final class Select implements Clause
         return $query;
     }
 
+    /** @param array<String> $queryStrings */
     private function hasFieldsQueryString(array $queryStrings): bool
     {
         return array_key_exists('fields', $queryStrings);

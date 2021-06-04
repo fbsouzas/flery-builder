@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 interface Clause
 {
+    /** @param array<Mixed> $queryStrings */
     public function apply(Builder $query, array $queryStrings): Builder;
 }

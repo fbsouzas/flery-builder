@@ -24,6 +24,7 @@ final class With implements Clause
         return $this->next->apply($query, $queryStrings);
     }
 
+    /** @param array<String> $queryStrings */
     private function hasWithQueryString(array $queryStrings): bool
     {
         return array_key_exists('with', $queryStrings);

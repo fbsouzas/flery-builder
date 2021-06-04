@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Builder;
 class OrderByTest extends TestCase
 {
     private Builder $builder;
+
+    /** @var Clause */
     private object $clauseMock;
 
     public function setUp(): void
@@ -50,6 +52,7 @@ class OrderByTest extends TestCase
         self::assertStringNotContainsString('order', $query->toSql());
     }
 
+    /** @return Clause */
     private function clauseMock(Builder $qb): object
     {
         $mock = $this->getMockBuilder(Clause::class)
@@ -96,6 +99,7 @@ class OrderByTest extends TestCase
         return $order;
     }
 
+    /** @return array<Array> */
     public function sortQueryStrings(): array
     {
         return [

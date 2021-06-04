@@ -9,8 +9,11 @@ use Illuminate\Database\Eloquent\Builder;
 final class ClauseChain
 {
     private Builder $query;
+
+    /** @var array<Mixed> */
     private array $queryStrings;
 
+     /** @param array<Mixed> $queryStrings */
     public function __construct(Builder $query, array $queryStrings)
     {
         $this->query = $query;

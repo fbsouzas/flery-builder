@@ -50,6 +50,7 @@ class SelectTest extends TestCase
         return 'select "' . implode('", "', explode(',', $fieldsQueryString));
     }
 
+    /** @return array<Array> */
     public function fieldsQueryString(): array
     {
         return [

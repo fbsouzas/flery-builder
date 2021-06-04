@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Builder;
 class LikeTest extends TestCase
 {
     private Builder $builder;
+
+    /** @var Clause $clauseMock */
     private object $clauseMock;
 
     public function setUp(): void
@@ -26,6 +28,8 @@ class LikeTest extends TestCase
     /**
      * @test
      * @dataProvider searchQueryStrings
+     *
+     * @param array<Array> $searchQueryString
      */
     public function itMustBeIncludeTheLikeClauseInTheQuery(array $searchQueryString): void
     {
@@ -50,6 +54,7 @@ class LikeTest extends TestCase
         self::assertStringNotContainsString('search', $query->toSql());
     }
 
+    /** @return Clause */
     private function clauseMock(Builder $builder): object
     {
         $mock = $this->getMockBuilder(Clause::class)
@@ -65,9 +70,11 @@ class LikeTest extends TestCase
         return $mock;
     }
 
+    /** @param array<string, Array> $searchQueryString */
     private function mountAssertString(array $searchQueryString): string
     {
         $mountedAssert = 'where ';
+        /** @var string */
         $searchQueryStringLastKey = array_key_last($searchQueryString);
 
         foreach ($searchQueryString as $column => $value) {
@@ -77,8 +84,7 @@ class LikeTest extends TestCase
         return $mountedAssert;
     }
 
-    private function addLikeClauseInTheAssertString(string $mountedAssert, string $column, string $searchQueryStringLastKey): string
-    {
+    private function addLikeClauseInTheAssertString(string $mountedAssert, string $column, string $searchQueryStringLastKey): string {
         $mountedAssert .= "\"{$column}\" like ?";
 
         if ($this->isNotTheLastLikeClause($column, $searchQueryStringLastKey)) {
@@ -93,6 +99,7 @@ class LikeTest extends TestCase
         return $column !== $searchQueryStringLastKey;
     }
 
+    /** @return array<Array> */
     public function searchQueryStrings(): array
     {
         return [
