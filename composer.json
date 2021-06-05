@@ -1,5 +1,5 @@
 {
-    "name": "fsouzas/query-builder",
+    "name": "fbsouzas/flery-builder",
     "description": "A Laravel query builder package.",
     "type": "library",
     "license": "MIT",
