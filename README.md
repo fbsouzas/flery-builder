@@ -1,8 +1,8 @@
 # Flery-builder
 
-A Laravel package to write easy and flexible Eloquent query string.
+A Laravel package to write, easy and flexible Eloquent query builder.
 
-## Instalation
+## Installation
 ```shell
 composer install fbsouzas/flery-builder
 ```
@@ -30,7 +30,7 @@ return FleryBuilder::to(User::class)
     ->get();
 ```
 
-You can use FleryBuilder combine with other Laravel's query builder functions.
+You can use FleryBuilder combine with other Laravel query builder functions.
 
 For example:
 
@@ -70,52 +70,52 @@ return FleryBuilder::to(User::class)
 ### Select
 
 ```php
-// This will return only the user's first name
+// That will return only the user's first name.
 GET /api/users?fields=first_name
 
 // or
 
-// This will return only the user's first name and last name
+// That will return only the user's first name and last name.
 GET /api/users?fields=first_name,last_name
 ```
 
 ### With
 
 ```php
-// This will return the user and his contact information
+// That will return the user and his contact information.
 GET /api/users?with=contact
 
 // or
 
-// This will return the user and his contact information and posts
+// That will return the user and his contact information and posts.
 GET /api/users?with=contact;posts
 
 // or
 
-// This will return the user and just his posts title
+// That will return the user and just his posts title.
 GET /api/users?with=posts:id,title
 ```
 
 ### Like
 
 ```php
-// This will return all users that have joe in their first names
+// That will return all users that have joe in their first names.
 GET /api/users?search[first_name]=joe
 ```
 
 ### Order by
 
 ```php
-// This will return a user's list ascendant ordered by first name
+// That will return a user's list ascendant ordered by the first name.
 GET /api/users?sort=first_name
 
 // or
 
-// This will return a user's list descendant ordered by first name
+// That will return a user's list descendant ordered by the first name.
 GET /api/users?sort=-first_name
 ```
 
-## Requiremets
+## Requirements
 - This package needs PHP 7.4 or above.
 
 ## Testing
